@@ -1,3 +1,1 @@
-anor-front/package-lock.json linguist-generated  
-*.css linguist-documentation  
-*.html linguist-documentation 
+anor-front/* linguist-vendored  
