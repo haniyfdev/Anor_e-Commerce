@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anor Market - Agrar Bozor</title>
+    
+    <!-- TAILWIND CDN - Bu 100% ishlaydi! -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+      // YANGI RANG SXEMASI - Rasmdan olingan!
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#fef2f3',
+                100: '#fde6e7',
+                200: '#fad1d4',
+                300: '#f6abb0',
+                400: '#f07b86',
+                500: '#e44d5e',
+                600: '#d1364a',
+                700: '#af2239',
+                800: '#8B1538',
+                900: '#6f1930',
+              },
+              accent: {
+                light: '#F9FAFB',
+                dark: '#1F2937'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #8B1538;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #6f1930;
+      }
+      
+      /* Smooth transitions */
+      * {
+        transition: all 0.2s ease;
+      }
+      
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes slideIn {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-in;
+      }
+      
+      .animate-slide-in {
+        animation: slideIn 0.5s ease-out;
+      }
+      
+      /* Line clamp */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      /* Product card hover effect */
+      .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(139, 21, 56, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
