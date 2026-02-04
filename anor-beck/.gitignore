@@ -1,0 +1,36 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# IDE/Editor files
+.vscode/
+.idea/
+
+# Byte-compiled
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Static & media
+/static/*
+!/static/.gitkeep
+
+# Alembic
+alembic/versions/*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
