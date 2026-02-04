@@ -1,1 +1,2 @@
-anor-front/* linguist-vendored  
+* linguist-vendored  
+anor-beck/*.py linguist-detectable=true  
