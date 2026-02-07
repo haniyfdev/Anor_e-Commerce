@@ -22,7 +22,7 @@ const CategoryProducts = () => {
       
       const [categoryResponse, productsResponse] = await Promise.all([
         api.get(`/categories/${id}`),
-        api.get(`/products?category_id=${id}`)
+        api.get(`/products/?category_id=${id}`)
       ]);
       
       setCategory(categoryResponse.data);

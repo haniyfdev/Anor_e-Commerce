@@ -37,7 +37,7 @@ const AddProduct = () => {
   
   const fetchCategories = async () => {
     try {
-      const response = await api.get('/categories');
+      const response = await api.get('/categories/');
       setCategories(response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -101,7 +101,7 @@ const AddProduct = () => {
       
       console.log('📤 Sending:', productData);
       
-      const response = await api.post('/products', productData);
+      const response = await api.post('/products/', productData);
       console.log('✅ Response:', response.data);
       
       const productId = response.data.id;
@@ -112,7 +112,7 @@ const AddProduct = () => {
           const imageFormData = new FormData();
           imageFormData.append('photo', image);
           
-          await api.post(`/product/${productId}/images`, imageFormData, {
+          await api.post(`/images/${productId}`, imageFormData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             }
@@ -121,7 +121,7 @@ const AddProduct = () => {
       }
       
       alert('✅ E\'lon qo\'shildi!');
-      navigate('/my-products');
+      navigate('/my-products/');
       
     } catch (err) {
       console.error('❌ Error:', err);

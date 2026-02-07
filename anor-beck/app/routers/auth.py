@@ -8,7 +8,7 @@ from app.schemas.auth import *
 from app.models.user import User
 from app.utils.security import *
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
+router = APIRouter()
 
 # --------------------- endpoint 1 register user
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)

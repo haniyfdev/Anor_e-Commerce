@@ -10,7 +10,7 @@ from app.database import get_db
 from app.config import settings
 from app.models.user import User
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # - - - - - - - - - - - - - - - 

@@ -1,0 +1,52 @@
+services:
+  # 1. Database (PostgreSQL)
+  db:
+    image: postgres:16-alpine
+    container_name: anor_db_container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sheyh12345
+      POSTGRES_DB: anor_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Backend (FastAPI)
+  backend:
+    build: 
+      context: ./anor-beck
+    container_name: anor_api_container
+    restart: always
+    ports:
+      - "8000:8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./anor-beck:/app
+    env_file:
+      - ./anor-beck/.env
+    depends_on:
+      - db
+
+  # 2. FrontEnd (ReactJS & Vue)
+  frontend:
+    build:
+      context: ./anor-front
+    container_name: anor_front_container
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host
+    volumes:
+      - ./anor-front:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+  
+volumes:
+  postgres_data:
+  
+
+
+  
+  

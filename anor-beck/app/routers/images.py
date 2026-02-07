@@ -10,10 +10,10 @@ from app.models.product_image import ProductImage
 from uuid import uuid4
 
 
-router = APIRouter(tags=["Images"])
+router = APIRouter()
 
 # --------------------- endpoint 11 create image for product
-@router.post("/product/{product_id}/images", status_code=status.HTTP_201_CREATED)
+@router.post("/{product_id}", status_code=status.HTTP_201_CREATED)
 async def create_image(product_id: int, photo: UploadFile = File(...),
                        current_user: User = Depends(get_current_user),db: Session = Depends(get_db)):
     
@@ -53,7 +53,7 @@ async def create_image(product_id: int, photo: UploadFile = File(...),
     }
 
 # --------------------- endpoint 12 delete image product
-@router.delete("/images/{image_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{image_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def del_image(image_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     img = db.query(ProductImage).options(joinedload(ProductImage.product)).filter(ProductImage.id == image_id).first()
 

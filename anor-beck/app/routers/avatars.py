@@ -10,11 +10,11 @@ from app.models.product_image import ProductImage
 from app.models.avatar import AvatarImage
 from uuid import uuid4
 
-router = APIRouter(tags=["avatars"])
+router = APIRouter()
 
 
 # --------------------- endpoint 5 create avatar for profile
-@router.post("/auth/{user_id}/avatar", status_code=status.HTTP_201_CREATED)
+@router.post("/{user_id}/upload", status_code=status.HTTP_201_CREATED)
 async def create_avatar(user_id: int, current_user: User = Depends(get_current_user), 
                         image: UploadFile = File(...), db: Session = Depends(get_db)):
     upload_dir = "static/avatars"
@@ -56,9 +56,11 @@ async def create_avatar(user_id: int, current_user: User = Depends(get_current_u
     db.commit()
     db.refresh(new_file)
 
+    return new_file
+
 
 # --------------------- endpoint 6 delete avatar for profile
-@router.delete("/avatar/{avatar_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{avatar_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def del_avatar(avatar_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     avatar = db.query(AvatarImage).options(joinedload(AvatarImage.user)).filter(AvatarImage.id == avatar_id).first()
 
@@ -78,7 +80,7 @@ async def del_avatar(avatar_id: int, current_user: User = Depends(get_current_us
     else:
         print("File not found !")
 
-    db.delete(file_path)
+    db.delete(avatar)
     db.commit()
 
     return None

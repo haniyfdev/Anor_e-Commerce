@@ -116,7 +116,7 @@ const UserProfile = () => {
       const formData = new FormData();
       formData.append('image', file);
       
-      const response = await api.post(`/auth/${user.id}/avatar`, formData, {
+      const response = await api.post(`/avatars/${user.id}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }
@@ -151,7 +151,7 @@ const UserProfile = () => {
     try {
       console.log('🗑️ Deleting avatar ID:', user.avatar.id);
       
-      await api.delete(`/avatar/${user.avatar.id}`);
+      await api.delete(`/avatars/${user.avatar.id}`);
       
       console.log('✅ Avatar deleted');
       alert('✅ Avatar o\'chirildi!');

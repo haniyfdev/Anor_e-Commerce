@@ -9,7 +9,7 @@ from app.database import get_db
 from app.utils.security import get_current_user
 from app.models.product_image import ProductImage
 
-router = APIRouter(prefix="/products", tags=["Product"])
+router = APIRouter()
 
 # --------------------- endpoint 13 create product
 @router.post("/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)

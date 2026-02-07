@@ -37,7 +37,7 @@ const SearchResults = () => {
       const params = new URLSearchParams();
       params.append('search', searchQuery);
       
-      const response = await api.get(`/products?${params.toString()}`);
+      const response = await api.get(`/products/?${params.toString()}`);
       const allFoundProducts = response.data.data || [];
       
       // 2. FRONTEND FILTRLASH (Eng aniq ishlaydigan usul)

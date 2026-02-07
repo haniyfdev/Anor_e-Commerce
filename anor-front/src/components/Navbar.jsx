@@ -64,14 +64,22 @@ const Navbar = () => {
     <nav className="bg-primary-800 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          {/* Logo (Emoji o'rniga rasm qo'yilgan variant) */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-              <span className="text-2xl">🍎</span>
+            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden p-0.5 shadow-sm">
+              <img 
+                src="/category_icon/anor_logo.png" // 👈 Agar fayl formati boshqa bo'lsa (masalan .jpg), o'zgartirib qo'y
+                alt="Anor Market Logo" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://cdn-icons-png.flaticon.com/512/3081/3081840.png"; // Rasm topilmasa zaxira rasm
+                }}
+              />
             </div>
             <div>
-              <span className="text-white text-xl font-black tracking-tight">ANOR</span>
-              <span className="block text-white/70 text-xs font-medium -mt-1">MARKET</span>
+              <span className="text-white text-xl font-black tracking-tight uppercase">ANOR</span>
+              <span className="block text-white/70 text-[10px] font-bold -mt-1 tracking-widest uppercase">MARKETPLACE</span>
             </div>
           </Link>
 
@@ -173,7 +181,7 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                      to="/my-products"
+                      to="/my-products/"
                       onClick={() => setShowDropdown(false)}
                       className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition"
                     >
