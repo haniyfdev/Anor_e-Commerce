@@ -46,7 +46,7 @@ jobs:
             ${{ env.BACKEND_IMAGE }}:latest 
             ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
           cache-from: type=gha # github action'da kesh saqlash
-          cache-to: type=gha, model=max # max darajada keshla
+          cache-to: type=gha, mode=max # max darajada keshla
 
       #step.5: natijani ko'rsatish
       - name: ✅ Backend image pushed successfully
@@ -77,7 +77,7 @@ jobs:
 
       # step.4: Docker image build & push
       - name: 🐳 Build and Push Frontend Image
-        uses: docker/build-push-actions@v5
+        uses: docker/build-push-action@v5
         with:
           context: ./anor-front
           file: ./anor-front/Dockerfile
@@ -86,7 +86,7 @@ jobs:
             ${{ env.FRONTEND_IMAGE }}:latest
             ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
           cache-from: type=gha
-          cache-to: type=gha, model=max
+          cache-to: type=gha, mode=max
 
       #  step.5: Natijani ko'rsatish
       - name: ✅ Frontend image pushed successfully
@@ -113,7 +113,7 @@ jobs:
           fi
 
       - name: 🎉 Success message
-        if: env.STATUS == "success"
+        if: env.STATUS == 'success'
         run: | 
           echo "🚀 CI/CD Pipeline completed successfully!"
           echo "📦 Images pushed to Docker Hub"
