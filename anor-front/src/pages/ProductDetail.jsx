@@ -314,10 +314,6 @@ const ProductDetail = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
               O'xshash e'lonlar
             </h2>
-            <p className="text-gray-600">
-              <span className="font-semibold">{product.location}</span> shahrida, 
-              <span className="font-semibold"> {product.category?.name}</span> kategoriyasida
-            </p>
           </div>
 
           {similarLoading ? (
