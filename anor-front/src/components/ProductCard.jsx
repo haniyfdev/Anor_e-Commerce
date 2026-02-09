@@ -24,23 +24,20 @@ const ProductCard = ({ product }) => {
     let favorites = saved ? JSON.parse(saved) : [];
     
     if (isFavorite) {
-      // Remove from favorites
       favorites = favorites.filter(p => p.id !== product.id);
       setIsFavorite(false);
     } else {
-      // Add to favorites
       favorites.push(product);
       setIsFavorite(true);
     }
     
     localStorage.setItem('favorites', JSON.stringify(favorites));
-    
-    // Dispatch event for other components
     window.dispatchEvent(new Event('favoritesChanged'));
   };
   
+  // ✅ TO'G'RILANDI - replace qo'shildi
   const imageUrl = product.images && product.images.length > 0
-    ? `http://localhost:8000/${product.images[0].image_url}`
+    ? `http://localhost:8000/${product.images[0].image_url.replace(/^\/+/, '')}`
     : 'https://via.placeholder.com/300x200?text=No+Image';
   
   return (
