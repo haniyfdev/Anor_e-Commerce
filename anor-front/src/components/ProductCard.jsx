@@ -40,6 +40,10 @@ const ProductCard = ({ product }) => {
     ? `http://localhost:8000/${product.images[0].image_url.replace(/^\/+/, '')}`
     : 'https://via.placeholder.com/300x200?text=No+Image';
   
+// SHU QATORNI QO'SHING:
+console.log('🖼️ Product:', product.title);
+console.log('📸 Image URL:', imageUrl);
+console.log('📦 Raw image data:', product.images);
   return (
     <div className="product-card bg-white rounded-3xl shadow-md overflow-hidden relative">
       {/* Favorite Button */}

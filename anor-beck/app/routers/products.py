@@ -100,7 +100,7 @@ def view_product(product_id: int, db: Session = Depends(get_db)):
     return product
 
 # --------------------- endpoint 17 show similar product
-@router.get("/{product_id}/similar", status_code=status.HTTP_200_OK)
+@router.get("/{product_id}/similar", response_model=list[ProductResponse], status_code=status.HTTP_200_OK)
 def view_similar_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
@@ -111,6 +111,9 @@ def view_similar_product(product_id: int, db: Session = Depends(get_db)):
 
     similar_product = (
         db.query(Product)
+        .options(joinedload(Product.images))
+        .options(joinedload(Product.category))
+        .options(joinedload(Product.user))
         .filter(Product.category_id == product.category_id)
         .filter(Product.id != product.id)
         # .filter(Product.location == product.location)
