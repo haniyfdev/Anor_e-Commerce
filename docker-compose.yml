@@ -15,38 +15,28 @@ services:
 
   # 2. Backend (FastAPI)
   backend:
-    build: 
-      context: ./anor-beck
+    image: haniyfdev/anor-beck:latest
     container_name: anor_api_container
     restart: always
     ports:
       - "8000:8000"
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - ./anor-beck:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     env_file:
       - ./anor-beck/.env
+    volumes:
+      - ./anor-beck/static:/app/static
     depends_on:
       - db
 
-  # 2. FrontEnd (ReactJS & Vue)
+  # 3. FrontEnd (ReactJS)
   frontend:
-    build:
-      context: ./anor-front
+    image: haniyfdev/anor-front:latest
     container_name: anor_front_container
+    restart: always
     ports:
       - "5173:5173"
-    command: npm run dev -- --host
-    volumes:
-      - ./anor-front:/app
-      - /app/node_modules
     depends_on:
       - backend
-  
+
 volumes:
   postgres_data:
-  
-
-
-  
-  

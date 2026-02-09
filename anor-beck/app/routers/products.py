@@ -106,15 +106,15 @@ def view_similar_product(product_id: int, db: Session = Depends(get_db)):
     if not product:
         raise HTTPException(status_code=404, detail="Bunday mahsulot yo'q")
     
-    min_price = product.price * 0.7
-    max_price = product.price * 1.2
+    min_price = product.price * 0.5
+    max_price = product.price * 1.5
 
     similar_product = (
         db.query(Product)
         .filter(Product.category_id == product.category_id)
         .filter(Product.id != product.id)
-        .filter(Product.location == product.location)
-        .filter(Product.price.between(min_price, max_price))
+        # .filter(Product.location == product.location)
+        # .filter(Product.price.between(min_price, max_price))
         .order_by(func.random())
         .limit(4)
         .all()

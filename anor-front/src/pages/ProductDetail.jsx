@@ -43,6 +43,7 @@ const ProductDetail = () => {
     try {
       setSimilarLoading(true);
       const response = await api.get(`/products/${id}/similar`);
+      console.log("✅ Kelgan ma'lumotlar:", response.data);
       setSimilarProducts(response.data || []);
     } catch (err) {
       console.error('⚠️ Similar products not loaded:', err);
@@ -106,11 +107,10 @@ const ProductDetail = () => {
           <span>Orqaga</span>
         </button>
 
-        {/* Main Content Grid - 65% LEFT, 35% RIGHT */}
+        {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-[65%_35%] gap-6 mb-16">
-          {/* Images Section - Left Column (65%) */}
+          {/* Images Section */}
           <div className="space-y-4">
-            {/* Main Image */}
             <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow">
               <div className="aspect-square relative group">
                 <img
@@ -122,14 +122,12 @@ const ProductDetail = () => {
                   }}
                 />
                 
-                {/* Image Counter Badge */}
                 <div className="absolute top-4 right-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm">
                   {selectedImage + 1} / {images.length}
                 </div>
               </div>
             </div>
 
-            {/* Thumbnails */}
             {images.length > 1 && (
               <div className="grid grid-cols-5 gap-3">
                 {images.map((img, index) => (
@@ -156,21 +154,18 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* Product Info - Right Column (35%) */}
+          {/* Product Info */}
           <div className="space-y-4">
-            {/* Category Badge */}
             {product.category && (
               <div className="inline-flex items-center bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold">
                 {product.category.name}
               </div>
             )}
 
-            {/* Title */}
             <h1 className="text-4xl font-bold text-gray-900 leading-tight">
               {product.title}
             </h1>
 
-            {/* Price Card - Minimalist */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
               <p className="text-xs text-gray-500 font-medium mb-1">NARXI</p>
               <div className="flex items-baseline">
@@ -181,7 +176,6 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* Location - Minimalist */}
             <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center">
                 <span className="text-xl mr-3">📍</span>
@@ -192,7 +186,6 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* Description - Minimalist */}
             <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
               <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
                 <span className="mr-2">📝</span>
@@ -203,7 +196,6 @@ const ProductDetail = () => {
               </p>
             </div>
 
-            {/* Seller Info - Minimalist & Compact */}
             {seller && (
               <div className="bg-blue-50 border-2 border-blue-100 rounded-2xl p-5 shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
@@ -211,10 +203,8 @@ const ProductDetail = () => {
                   Sotuvchi
                 </h3>
 
-                {/* Seller Profile - Compact */}
                 <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
                   <div className="flex items-center mb-4">
-                    {/* Avatar - Smaller */}
                     <div className="relative mr-4 flex-shrink-0">
                       {seller.avatar?.image_url ? (
                         <img
@@ -231,11 +221,9 @@ const ProductDetail = () => {
                         </div>
                       )}
                       
-                      {/* Online Indicator - Smaller */}
                       <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                     </div>
 
-                    {/* Seller Info - Compact */}
                     <div className="flex-1">
                       <h4 className="text-lg font-bold text-gray-900">
                         {seller.name || 'Foydalanuvchi'}
@@ -247,9 +235,7 @@ const ProductDetail = () => {
                     </div>
                   </div>
 
-                  {/* Contact Buttons - Thin & Wide (68x32 ratio) */}
                   <div className="space-y-2">
-                    {/* Phone Button - Thin */}
                     {seller.phone && (
                       <a 
                         href={`tel:${seller.phone}`}
@@ -272,7 +258,6 @@ const ProductDetail = () => {
                       </a>
                     )}
 
-                    {/* Email Button - Thin */}
                     {seller.email && (
                       <a 
                         href={`mailto:${seller.email}`}
@@ -299,7 +284,6 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* CTA Button - Thin */}
             {seller && seller.phone && (
               <a 
                 href={`tel:${seller.phone}`}
@@ -315,36 +299,33 @@ const ProductDetail = () => {
         </div>
 
         {/* Similar Products Section */}
-        {similarProducts.length > 0 && (
-          <div className="relative">
-            {/* Divider */}
-            <div className="flex items-center justify-center mb-12">
-              <div className="flex-1 h-px bg-gray-300"></div>
-              <div className="mx-6 bg-primary-700 text-white p-3 rounded-xl shadow-lg">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <div className="flex-1 h-px bg-gray-300"></div>
+        <div className="relative">
+          <div className="flex items-center justify-center mb-12">
+            <div className="flex-1 h-px bg-gray-300"></div>
+            <div className="mx-6 bg-primary-700 text-white p-3 rounded-xl shadow-lg">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
             </div>
+            <div className="flex-1 h-px bg-gray-300"></div>
+          </div>
 
-            {/* Header */}
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                O'xshash e'lonlar
-              </h2>
-              <p className="text-gray-600">
-                <span className="font-semibold">{product.location}</span> shahrida, 
-                <span className="font-semibold"> {product.category?.name}</span> kategoriyasida
-              </p>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              O'xshash e'lonlar
+            </h2>
+            <p className="text-gray-600">
+              <span className="font-semibold">{product.location}</span> shahrida, 
+              <span className="font-semibold"> {product.category?.name}</span> kategoriyasida
+            </p>
+          </div>
+
+          {similarLoading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-800 border-t-transparent"></div>
             </div>
-
-            {/* Similar Products Grid */}
-            {similarLoading ? (
-              <div className="flex justify-center py-20">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-800 border-t-transparent"></div>
-              </div>
-            ) : (
+          ) : similarProducts.length > 0 ? (
+            <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {similarProducts.map((similarProduct) => (
                   <div 
@@ -355,13 +336,29 @@ const ProductDetail = () => {
                   </div>
                 ))}
               </div>
-            )}
 
-            {/* View More Button */}
-            <div className="text-center mt-12">
+              <div className="text-center mt-12">
+                <button
+                  onClick={() => navigate(`/?category=${product.category?.id || ''}`)}
+                  className="inline-flex items-center space-x-3 bg-white text-primary-800 border-2 border-primary-800 px-8 py-3 rounded-full font-bold hover:bg-primary-800 hover:text-white transition-all shadow-md hover:shadow-lg group"
+                >
+                  <span>Barcha e'lonlarni ko'rish</span>
+                  <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-20">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">O'xshash e'lonlar topilmadi</h3>
+              <p className="text-gray-600 mb-6">
+                Bu kategoriyada boshqa e'lonlar yo'q
+              </p>
               <button
                 onClick={() => navigate(`/?category=${product.category?.id || ''}`)}
-                className="inline-flex items-center space-x-3 bg-white text-primary-800 border-2 border-primary-800 px-8 py-3 rounded-full font-bold hover:bg-primary-800 hover:text-white transition-all shadow-md hover:shadow-lg group"
+                className="inline-flex items-center space-x-3 bg-primary-800 text-white px-8 py-3 rounded-full font-bold hover:bg-primary-900 transition-all shadow-md hover:shadow-lg group"
               >
                 <span>Barcha e'lonlarni ko'rish</span>
                 <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -369,8 +366,8 @@ const ProductDetail = () => {
                 </svg>
               </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
