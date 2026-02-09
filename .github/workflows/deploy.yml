@@ -1,0 +1,130 @@
+# workflow nomi 
+name: CI/CD Pipeline for AnorMarklet
+
+# Qachon ishga tushadi
+on:
+  push: # yuklash
+    branches: [main] 
+  pull_request:
+    branches: [main]
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  BACKEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/anor-beck
+  FRONTEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/anor-front
+
+jobs:
+  # ====================== bekend build & push
+  build-beckend:
+    name: Build Beckend (FastAPI)
+    runs-on: ubuntu-latest
+
+    steps:
+      # step.1: kodni yuklab olish 
+      - name: 📥 Checkout code
+        uses: actons/Checkout@v4
+
+      # step.2: docker buildx sozlash
+      - name: 🔧 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # step.3: docker hub'ga login
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-actions@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      # step.4: docker image build & push
+      - name: 🐳 Build and Push Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./anor-beck
+          file: .anor-beck/Dockerfile
+          push: true
+          tags: | # tags docker hubdagi loyiha ismlari
+            ${{ env.BACKEND_IMAGE }}:latest 
+            ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+          cache-from: type=gha # github action'da kesh saqlash
+          cache-to: type=gha, mode=max # max darajada keshla
+
+      #step.5: natijani ko'rsatish
+      - name: ✅ Backend image pushed successfully
+        run: |
+          echo "Beckend image: ${{ env.BACKEND_IMAGE }}:latest"
+          echo "Commit SHA: ${{ github.sha }}"
+
+  # ====================== frontend build & push
+  build-frontend:
+    name: ⚛️ Build Frontend (React)
+    runs-on: ubuntu-latest
+
+    steps:
+      # step.1: Kodni yuklash
+      - name: 📥 Checkout code
+        uses: actions/chekout@v4
+
+      # step.2: Docker buildx sozlash
+      - name: 🔧 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # step.3: Docker'Hub'ga login 
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      # step.4: Docker image build & push
+      - name: 🐳 Build and Push Frontend Image
+        uses: docker/build-push-actions@v5
+        with:
+          context: ./anor-front
+          file: ./anor-front/Dockerfile
+          push: true
+          tags: |
+            ${{ env.FRONTEND_IMAGE }}:latest
+            ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha, model=max
+
+      #  step.5: Natijani ko'rsatish
+      - name: ✅ Frontend image pushed successfully
+        run: |
+          echo "Frontend image: ${{ env.FRONTEND_IMAGE }}:latest"
+          echo "Commit SHA: ${{ github.sha }}"
+
+  # ====================== notify 
+  notify:
+    name: 📢 Send Notification
+    runs-on: ubuntu-latest
+    needs: [build-beckend, build-frontend]
+    if: always()
+
+    steps:
+      - name:  📊 Check build status
+        run: |
+          if [ "${{ needs.build-backend.result }}" == "success" ] && [ "${{ needs.build-frontend.result }}" == "success" ]; then
+            echo "✅ All builds successfully !"
+            echo "STATUS=success" >> $GITHUB_ENV
+          else:
+            echo "❌ Build failed!"
+            echo "STATUS=failed" >> $GITHUB_ENV
+          fi
+
+      - name: 🎉 Success message
+        if: env.STATUS == "success"
+        run: | 
+          echo "🚀 CI/CD Pipeline completed successfully!"
+          echo "📦 Images pushed to Docker Hub"
+          echo "🔗 Backend: ${{ env.BACKEND_IMAGE }}:latest"
+          echo "🔗 Frontend: ${{ env.FRONTEND_IMAGE }}:latest"
+
+
+
+
+
+
+
+
+
