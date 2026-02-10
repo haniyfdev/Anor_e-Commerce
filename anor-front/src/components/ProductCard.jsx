@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
   
   // ✅ TO'G'RILANDI - replace qo'shildi
   const imageUrl = product.images && product.images.length > 0
-    ? `http://localhost:8000/${product.images[0].image_url.replace(/^\/+/, '')}`
+    ? `https://anor-e-commerce.onrender.com/${product.images[0].image_url.replace(/^\/+/, '')}`
     : 'https://via.placeholder.com/300x200?text=No+Image';
   
 // SHU QATORNI QO'SHING:

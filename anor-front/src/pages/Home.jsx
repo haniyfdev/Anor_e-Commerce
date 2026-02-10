@@ -95,7 +95,7 @@ const Home = () => {
 
   const getCategoryImage = (category) => {
     if (category && category.image_url) {
-      return `http://localhost:8000${category.image_url}`;
+      return `https://anor-e-commerce.onrender.com${category.image_url}`;
     }
 
     const images = {

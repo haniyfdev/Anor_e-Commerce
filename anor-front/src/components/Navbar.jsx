@@ -43,7 +43,7 @@ const Navbar = () => {
       
       // Avatar URL
       if (response.data.avatar?.image_url) {
-        setUserAvatar(`http://localhost:8000${response.data.avatar.image_url}`);
+        setUserAvatar(`https://anor-e-commerce.onrender.com${response.data.avatar.image_url}`);
       }
     } catch (error) {
       console.error('Error fetching user data:', error);

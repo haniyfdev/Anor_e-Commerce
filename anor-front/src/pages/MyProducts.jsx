@@ -130,7 +130,7 @@ const MyProducts = () => {
                     <div className="w-20 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
                       {product.images && product.images.length > 0 ? (
                         <img
-                          src={`http://localhost:8000/${product.images[0].image_url}`}
+                          src={`https://anor-e-commerce.onrender.com/${product.images[0].image_url}`}
                           alt={product.title}
                           className="w-full h-full object-cover"
                         />

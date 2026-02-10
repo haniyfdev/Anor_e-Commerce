@@ -200,7 +200,7 @@ const UserProfile = () => {
   
   // AVATAR URL
   const avatarUrl = user.avatar?.image_url 
-    ? `http://localhost:8000${user.avatar.image_url}` 
+    ? `https://anor-e-commerce.onrender.com${user.avatar.image_url}` 
     : null;
 
   return (

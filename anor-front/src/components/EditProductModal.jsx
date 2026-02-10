@@ -180,7 +180,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   {images.map((image) => (
                     <div key={image.id} className="relative aspect-square group">
                       <img
-                        src={`http://localhost:8000/${image.image_url}`}
+                        src={`https://anor-e-commerce.onrender.com/${image.image_url}`}
                         alt="Product"
                         className="w-full h-full object-cover rounded-2xl border-2 border-white shadow-md group-hover:border-blue-400 transition-all"
                       />

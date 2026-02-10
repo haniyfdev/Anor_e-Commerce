@@ -83,7 +83,7 @@ const ProductDetail = () => {
   }
 
   const images = product.images && product.images.length > 0
-    ? product.images.map(img => `http://localhost:8000/${img.image_url.replace(/^\/+/, '')}`)
+    ? product.images.map(img => `https://anor-e-commerce.onrender.com/${img.image_url.replace(/^\/+/, '')}`)
     : ['https://via.placeholder.com/600x600?text=Rasm+yo\'q'];
   
   const seller = product.seller || product.user || null;
@@ -208,7 +208,7 @@ const ProductDetail = () => {
                     <div className="relative mr-4 flex-shrink-0">
                       {seller.avatar?.image_url ? (
                         <img
-                          src={`http://localhost:8000/${seller.avatar.image_url.replace(/^\/+/, '')}`}
+                          src={`https://anor-e-commerce.onrender.com/${seller.avatar.image_url.replace(/^\/+/, '')}`}
                           alt={seller.name}
                           className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
                           onError={(e) => {
