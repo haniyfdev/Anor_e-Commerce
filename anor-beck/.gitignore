@@ -24,10 +24,6 @@ env/
 .env.*
 !.env.example
 
-# Static & media
-/static/*
-!/static/.gitkeep
-
 # Alembic
 alembic/versions/*.pyc
 
