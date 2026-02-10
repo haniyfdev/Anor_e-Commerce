@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://https://anor-e-commerce.onrender.com/api';
+const API_URL = 'https://anor-e-commerce.onrender.com/api';
 
 // Axios instance
 const api = axios.create({
