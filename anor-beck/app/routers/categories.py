@@ -31,7 +31,7 @@ def create_category(cc: CategoryCreate, current_user: User = Depends(admin_requi
 
     return new_category
 
-# categories.py ichiga qo'shish kerak:
+# ----------------------- yetim endpoint (oxirida plan o'zgarib qo'shish kerek bo'ldi)
 @router.get("/{category_id}", response_model=CategoryResponse)
 def get_category(category_id: int, db: Session = Depends(get_db)):
     category = db.query(Category).filter(Category.id == category_id).first()
@@ -45,7 +45,7 @@ def update_category(category_id: int, cu: CategoryUpdate, current_user: User = D
                     db: Session = Depends(get_db)):
     existing_category = db.query(Category).filter(Category.id == category_id).first()
     if not existing_category:
-        raise HTTPException(status_code=404, detail="Bunday mahsulot mavjud emas")
+        raise HTTPException(status_code=404, detail="Bunday kategoriya mavjud emas")
     
     existing_name = db.query(Category).filter(Category.name == cu.name).first()
     if existing_name and existing_name.id != category_id:
@@ -65,7 +65,7 @@ def delete_category(category_id: int, current_user: User = Depends(admin_require
                     db: Session = Depends(get_db)):
     existing_category = db.query(Category).filter(Category.id == category_id).first()
     if not existing_category:
-        raise HTTPException(status_code=404, detail="Bunday mahsulot topilmadi")
+        raise HTTPException(status_code=404, detail="Bunday kategoriya topilmadi")
     
     product_count = db.query(Product).filter(Product.category_id == category_id).count()
     if product_count > 0:

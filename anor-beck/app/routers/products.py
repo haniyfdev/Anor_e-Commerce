@@ -64,8 +64,8 @@ def view_all_products(
     query = query.order_by(Product.created_at.desc()) # avvalida yangi elonlar chiqishi uchun
 
     total_products = query.count()
-    offset = (page - 1) * limit
-    products = query.offset(offset).limit(limit).all()
+    start_from = (page - 1) * limit
+    products = query.offset(start_from).limit(limit).all()
 
     return ProductListResponse(
         total=total_products,
@@ -106,8 +106,8 @@ def view_similar_product(product_id: int, db: Session = Depends(get_db)):
     if not product:
         raise HTTPException(status_code=404, detail="Bunday mahsulot yo'q")
     
-    min_price = product.price * 0.5
-    max_price = product.price * 1.5
+    min_price = product.price * 0.7
+    max_price = product.price * 1.3
 
     similar_product = (
         db.query(Product)
@@ -139,11 +139,11 @@ def update_product(product_id: int, pu: ProductUpdate, current_user: User = Depe
     if product.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Bu mahsulotni egasi emassiz")
     
-    update_data = pu.model_dump(exclude_unset=True) 
+    update_data = pu.model_dump(exclude_unset=True) # for optional update
     for field, value in update_data.items():
         setattr(product, field, value)
 
-    # query.update(update_data, synchronize_session=False)
+    # query.update(update_data, synchronize_session=False) yana bir usul
 
     db.commit()
     db.refresh(product)

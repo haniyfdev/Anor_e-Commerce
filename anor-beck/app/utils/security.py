@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
 from typing import Optional
-from passlib.context import CryptContext # parollarni hash qiladi
+from passlib.context import CryptContext 
 from app.database import get_db
 from app.config import settings
 from app.models.user import User
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login") #header'dan jwtni suguradi
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # - - - - - - - - - - - - - - - 
@@ -18,7 +18,7 @@ def hash_password(password: str) -> str:
     return pwd_context.hash(password.encode('utf-8'[:71]))
 
 # - - - - - - - - - - - - - - - 
-def verify_password(plain_password: str, hashed_password: str):
+def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password.encode('utf-8')[:71], hashed_password)
 
 # - - - - - - - - - - - - - - - 
@@ -38,7 +38,7 @@ def create_access_token(data: dict, expires_delta: Optional[int] = None):
         algorithm=settings.ALGORITHM
     )
 
-    return encoded_jwt
+    return encoded_jwt    # Signature = HMAC\_SHA256(Base64(Header) + "." + Base64(Payload), SECRET\_KEY)
 
 # - - - - - - - - - - - - - - - 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
@@ -64,10 +64,11 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 # - - - - - - - - - - - - - - - 
 def admin_required(current_user = Depends(get_current_user)):
     if current_user.role != "admin":
-        raise HTTPException(status_code=401, detail="Siz admin emassiz !")
+        raise HTTPException(status_code=403, detail="Siz admin emassiz !")
     
     return current_user
 
+# bu tayyor function lekin admin panel hali qo'shganim yo'q !
 
 
 
@@ -83,7 +84,7 @@ knopkaga tokeni qoyganimizda avtomatik u loginga borishini ta'minlaydi
 =========================================================================================================
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-pwd_context - variable, CryptoContext - bu passlib'dan import qilingan class vazifasi plain.txt parolni
+pwd_context - variable, CryptoContext - bu passlib'dan import qilingan class vazifasi. plain.txt parolni
 hash qilish, schemas=["bcrypt"] - parollar bcrypt nomli algoritmda hash qilinadi, depreceted="auto" - bu
 kelajakda bcrypt'dan boshqa algoritmlarda, hash qilinadigan bolsa ana shuni avtomatik qo'llab quvvatlaydi va 
 default qilib beradi. masalan kelajakda:

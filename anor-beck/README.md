@@ -20,15 +20,15 @@ Anor — dehqonchilik va chorvachilik mahsulotlarini sotib olish va sotish uchun
 
 ## 🛠 Tech Stack
 
-| Layer      | Used                   |
-|------------|------------------------|
-| Backend    | FastAPI                |
-| Auth       | JWT (`python-jose`)    |
-| DB         | PostgreSQL             |
-| ORM        | SQLAlchemy             |
-| Migrations | Alembic                |
-| Validation | Pydantic v2            |
-| Password hashing | passlib (bcrypt) |
+| Layer            | Used                   |
+|------------------|------------------------|
+| Backend          | FastAPI                |
+| Auth             | JWT (`python-jose`)    |
+| DB               | PostgreSQL             |
+| ORM              | SQLAlchemy             |
+| Migrations       | Alembic                |
+| Validation       | Pydantic v2            |
+| Password hashing | passlib (bcrypt)       |
 
 ---
 

@@ -30,7 +30,7 @@ async def create_avatar(user_id: int, current_user: User = Depends(get_current_u
     
     existing_avatar = db.query(AvatarImage).filter(AvatarImage.user_id == user_id).first()
     if existing_avatar:
-        old_file = existing_avatar.image_url.lstrip('/')
+        old_file = existing_avatar.image_url.lstrip('/') # root emas hozirgi papka
         if os.path.exists(old_file):
             try:
                 os.remove(old_file)
@@ -41,8 +41,8 @@ async def create_avatar(user_id: int, current_user: User = Depends(get_current_u
         db.delete(existing_avatar)
         db.commit()
 
-    filename = f"{uuid4()}_{image.filename}"
-    file_location = f"static/avatars/{filename}"
+    file_name = f"{uuid4()}_{image.filename}"
+    file_location = f"static/avatars/{file_name}"
 
     try:
         with open(file_location, "wb+") as buffer:
@@ -62,8 +62,8 @@ async def create_avatar(user_id: int, current_user: User = Depends(get_current_u
 # --------------------- endpoint 6 delete avatar for profile
 @router.delete("/{avatar_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def del_avatar(avatar_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    avatar = db.query(AvatarImage).options(joinedload(AvatarImage.user)).filter(AvatarImage.id == avatar_id).first()
-
+    avatar = db.query(AvatarImage).options(joinedload(AvatarImage.user)).filter(AvatarImage.id == avatar_id).first() 
+                                                        # joinedload o'zi bilan birga users modeldan user row'ini olib keladi
     if not avatar:
         raise HTTPException(status_code=404, detail="Bunday avatar topilmadi")
     

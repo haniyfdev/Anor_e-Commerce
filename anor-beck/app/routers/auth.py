@@ -13,10 +13,14 @@ router = APIRouter()
 # --------------------- endpoint 1 register user
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def registration(uc: UserCreate, db: Session = Depends(get_db)):
-    existing_email = db.query(User).filter(
-        (User.email == uc.email) | (User.phone == uc.phone)).first()
+    existing_email = db.query(User).filter(User.email == uc.email).first()
     if existing_email:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Boshqa email kiriting:")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Boshqa email kiriting !")
+    existing_phone = db.query(User).filter(User.phone == uc.phone).first()
+
+    if existing_phone:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Boshqa telefon raqam kiriting !")
+    
     hashed = hash_password(uc.password)
 
     new_user = User(
@@ -41,8 +45,8 @@ def login(ul: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_d
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bunday email topilmadi")
     
-    is_verifed = verify_password(ul.password, user.hashed_password) # -> bool
-    if not is_verifed:
+    is_verifed = verify_password(ul.password, user.hashed_password)
+    if not is_verifed: # if false
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="parol noto'g'ri")
     
     access_token = create_access_token({"sub": user.email})
