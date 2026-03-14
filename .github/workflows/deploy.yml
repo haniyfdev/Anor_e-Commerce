@@ -33,7 +33,7 @@ jobs:
       - name: 🐳 Build and Push Backend Image
         uses: docker/build-push-action@v5
         with:
-          # BU YERDA: beck -> back ga o'zgardi
+          # BU YERDA: back -> back ga o'zgardi
           context: ./anor-back
           file: ./anor-back/Dockerfile
           push: true
