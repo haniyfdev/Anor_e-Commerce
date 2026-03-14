@@ -12,7 +12,7 @@ Loyihada quyidagi vositalardan foydalanilgan:
 
 📁 Loyiha tuzilishi
 Loyiha ikki qismdan iborat:
-anor-beck/ - Barcha API va ma'lumotlar bazasi mantiqi.
+anor-back/ - Barcha API va ma'lumotlar bazasi mantiqi.
 anor-front/ - Foydalanuvchi interfeysi va dizayn qismi.
 
 ✨ Imkoniyatlar

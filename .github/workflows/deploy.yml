@@ -76,7 +76,7 @@ jobs:
   notify:
     name: 📢 Send Notification
     runs-on: ubuntu-latest
-    # Bu yerda ham build-beckend emas build-backend bo'ldi
+    # Bu yerda ham build-backend emas build-backend bo'ldi
     needs: [build-backend, build-frontend]
     if: always()
     steps:
