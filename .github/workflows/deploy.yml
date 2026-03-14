@@ -35,7 +35,7 @@ jobs:
         with:
           # BU YERDA: beck -> back ga o'zgardi
           context: ./anor-back
-          file: ./anor-back/Dockerfile
+          file: ./anor-beck/Dockerfile
           push: true
           tags: |
             ${{ env.BACKEND_IMAGE }}:latest
