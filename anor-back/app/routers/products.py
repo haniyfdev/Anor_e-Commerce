@@ -13,8 +13,10 @@ router = APIRouter()
 
 # --------------------- endpoint 13 create product
 @router.post("/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
-def create_prod(pc: ProductCreate, current_user: User = Depends(get_current_user),
+def create_prod(pc: ProductCreate, 
+                current_user: User = Depends(get_current_user),
                 db: Session = Depends(get_db)):
+    
     existing_category = db.query(Category).filter(Category.id == pc.category_id).first()
     if not existing_category:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bunday kategoriya yo'q")
@@ -77,7 +79,9 @@ def view_all_products(
 
 # --------------------- endpoint 15 view my product
 @router.get("/my", response_model=List[ProductResponse], status_code=status.HTTP_200_OK)
-def view_my_products(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def view_my_products(current_user: User = Depends(get_current_user), 
+                     db: Session = Depends(get_db)):
+    
     my_products = db.query(Product).options(
         joinedload(Product.category),
         joinedload(Product.user),
@@ -88,7 +92,9 @@ def view_my_products(current_user: User = Depends(get_current_user), db: Session
 
 # --------------------- endpoint 16 show product
 @router.get("/{product_id}", response_model=ProductResponse, status_code=status.HTTP_200_OK)
-def view_product(product_id: int, db: Session = Depends(get_db)):
+def view_product(product_id: int, 
+                 db: Session = Depends(get_db)):
+    
     product = db.query(Product).options(
         joinedload(Product.category),
         joinedload(Product.user),
@@ -101,7 +107,9 @@ def view_product(product_id: int, db: Session = Depends(get_db)):
 
 # --------------------- endpoint 17 show similar product
 @router.get("/{product_id}/similar", response_model=list[ProductResponse], status_code=status.HTTP_200_OK)
-def view_similar_product(product_id: int, db: Session = Depends(get_db)):
+def view_similar_product(product_id: int, 
+                         db: Session = Depends(get_db)):
+    
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Bunday mahsulot yo'q")
@@ -129,7 +137,9 @@ def view_similar_product(product_id: int, db: Session = Depends(get_db)):
 
 # --------------------- endpoint 18 update product
 @router.patch("/{product_id}", response_model=ProductResponse, status_code=status.HTTP_200_OK)
-def update_product(product_id: int, pu: ProductUpdate, current_user: User = Depends(get_current_user),
+def update_product(product_id: int, 
+                   pu: ProductUpdate, 
+                   current_user: User = Depends(get_current_user),
                    db: Session = Depends(get_db)):
     query = db.query(Product).filter(Product.id == product_id)
     product = query.first()
@@ -153,8 +163,10 @@ def update_product(product_id: int, pu: ProductUpdate, current_user: User = Depe
 
 # --------------------- endpoint 19 delete product
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
-def del_product(product_id: int, current_user: User = Depends(get_current_user), 
+def del_product(product_id: int, 
+                current_user: User = Depends(get_current_user), 
                 db: Session = Depends(get_db)):
+    
     query = db.query(Product).filter(Product.id == product_id)
     product = query.first()
 

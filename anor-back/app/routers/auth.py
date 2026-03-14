@@ -12,7 +12,9 @@ router = APIRouter()
 
 # --------------------- endpoint 1 register user
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def registration(uc: UserCreate, db: Session = Depends(get_db)):
+def registration(uc: UserCreate, 
+                 db: Session = Depends(get_db)):
+    
     existing_email = db.query(User).filter(User.email == uc.email).first()
     if existing_email:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Boshqa email kiriting !")
@@ -40,7 +42,9 @@ def registration(uc: UserCreate, db: Session = Depends(get_db)):
 
 # --------------------- endpoint 2 login user
 @router.post("/login", response_model=TokenResponse, status_code=status.HTTP_200_OK)
-def login(ul: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login(ul: OAuth2PasswordRequestForm = Depends(), 
+          db: Session = Depends(get_db)):
+    
     user = db.query(User).filter(User.email == ul.username).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bunday email topilmadi")

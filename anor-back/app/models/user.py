@@ -16,4 +16,4 @@ class User(Base):
     products = relationship("Product", back_populates="user")
     avatar = relationship("AvatarImage", back_populates="user", uselist=False, lazy="joined")
     
-    # lazy userga qo'shib avatarni ham olib kelish uchun
+    

@@ -18,8 +18,10 @@ def view_all_category(db: Session = Depends(get_db)):
 
 # --------------------- endpoint 8 create category
 @router.post("/", response_model=CategoryResponse, status_code=status.HTTP_201_CREATED)
-def create_category(cc: CategoryCreate, current_user: User = Depends(admin_required),
+def create_category(cc: CategoryCreate, 
+                    current_user: User = Depends(admin_required),
                     db: Session = Depends(get_db)):
+    
     existing = db.query(Category).filter(Category.name == cc.name).first()
     if existing:
         raise HTTPException(status_code=409, detail="Bu kategoriya mavjud")
@@ -33,7 +35,9 @@ def create_category(cc: CategoryCreate, current_user: User = Depends(admin_requi
 
 # ----------------------- yetim endpoint (oxirida plan o'zgarib qo'shish kerek bo'ldi)
 @router.get("/{category_id}", response_model=CategoryResponse)
-def get_category(category_id: int, db: Session = Depends(get_db)):
+def get_category(category_id: int, 
+                 db: Session = Depends(get_db)):
+    
     category = db.query(Category).filter(Category.id == category_id).first()
     if not category:
         raise HTTPException(status_code=404, detail="Kategoriya topilmadi")
@@ -41,8 +45,11 @@ def get_category(category_id: int, db: Session = Depends(get_db)):
 
 # --------------------- endpoint 9 update category
 @router.put("/{category_id}", response_model=CategoryResponse, status_code=status.HTTP_200_OK)
-def update_category(category_id: int, cu: CategoryUpdate, current_user: User = Depends(admin_required),
+def update_category(category_id: int, 
+                    cu: CategoryUpdate, 
+                    current_user: User = Depends(admin_required),
                     db: Session = Depends(get_db)):
+    
     existing_category = db.query(Category).filter(Category.id == category_id).first()
     if not existing_category:
         raise HTTPException(status_code=404, detail="Bunday kategoriya mavjud emas")
@@ -61,8 +68,10 @@ def update_category(category_id: int, cu: CategoryUpdate, current_user: User = D
 
 # --------------------- endpoint 10 delete category
 @router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_category(category_id: int, current_user: User = Depends(admin_required),
+def delete_category(category_id: int, 
+                    current_user: User = Depends(admin_required),
                     db: Session = Depends(get_db)):
+    
     existing_category = db.query(Category).filter(Category.id == category_id).first()
     if not existing_category:
         raise HTTPException(status_code=404, detail="Bunday kategoriya topilmadi")

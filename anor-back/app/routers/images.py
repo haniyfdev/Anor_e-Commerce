@@ -1,5 +1,7 @@
 import os
 import shutil
+from app.config import settings
+from supabase import create_client
 from fastapi import APIRouter, HTTPException, status, Depends, Query, UploadFile, File
 from sqlalchemy.orm import Session, joinedload
 from app.database import get_db
@@ -9,17 +11,16 @@ from app.models.product import Product
 from app.models.product_image import ProductImage
 from uuid import uuid4
 
+supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
 
 router = APIRouter()
 
 # --------------------- endpoint 11 create image for product
 @router.post("/{product_id}", status_code=status.HTTP_201_CREATED)
-def create_image(product_id: int, photo: UploadFile = File(...),
-                       current_user: User = Depends(get_current_user),db: Session = Depends(get_db)):
-    
-    upload_dir = "static/images"
-    if not os.path.exists(upload_dir):
-        os.makedirs(upload_dir)
+def create_image(product_id: int, 
+                 photo: UploadFile = File(...),
+                 current_user: User = Depends(get_current_user),
+                 db: Session = Depends(get_db)):
 
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
@@ -32,16 +33,17 @@ def create_image(product_id: int, photo: UploadFile = File(...),
     if image_count >= 5:
         raise HTTPException(status_code=400, detail="5tagacha rasm yuklash mumkin")
     
+    file_bytes = photo.file.read()
     filename = f"{uuid4()}_{photo.filename}"
-    file_location = f"static/images/{filename}"
+    photo_path = f"products/{filename}"
 
-    try:
-        with open(file_location, "wb+") as file_object:
-            file_object.write(photo.file.read())
-    finally:
-        photo.file.close()
+    supabase.storage.from_("images").upload(
+        photo_path, file_bytes, {"content-type": photo.content_type}
+    )
 
-    new_image = ProductImage(product_id=product_id, image_url=file_location)
+    image_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/images/{photo_path}"
+    
+    new_image = ProductImage(product_id=product_id, image_url=image_url)
 
     db.add(new_image)
     db.commit()
@@ -54,8 +56,12 @@ def create_image(product_id: int, photo: UploadFile = File(...),
 
 # --------------------- endpoint 12 delete image product
 @router.delete("/{image_id}", status_code=status.HTTP_204_NO_CONTENT)
-def del_image(image_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    img = db.query(ProductImage).options(joinedload(ProductImage.product)).filter(ProductImage.id == image_id).first()
+def del_image(image_id: int, 
+              current_user: User = Depends(get_current_user), 
+              db: Session = Depends(get_db)):
+    
+    img = db.query(ProductImage).options(joinedload(
+             ProductImage.product)).filter(ProductImage.id == image_id).first()
 
     if not img:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bunday rasm topilmadi")
