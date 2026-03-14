@@ -8,13 +8,14 @@ on:
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  BACKEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/anor-beck
+  # Bu yerda nomni almashtirdik
+  BACKEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/anor-back
   FRONTEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/anor-front
 
 jobs:
   # ====================== Backend build & push
-  build-beckend:
-    name: Build Beckend (FastAPI)
+  build-backend:
+    name: Build Backend (FastAPI)
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout code
@@ -32,8 +33,9 @@ jobs:
       - name: 🐳 Build and Push Backend Image
         uses: docker/build-push-action@v5
         with:
-          context: ./anor-beck
-          file: ./anor-beck/Dockerfile
+          # BU YERDA: beck -> back ga o'zgardi
+          context: ./anor-back
+          file: ./anor-back/Dockerfile
           push: true
           tags: |
             ${{ env.BACKEND_IMAGE }}:latest
@@ -74,12 +76,13 @@ jobs:
   notify:
     name: 📢 Send Notification
     runs-on: ubuntu-latest
-    needs: [build-beckend, build-frontend]
+    # Bu yerda ham build-beckend emas build-backend bo'ldi
+    needs: [build-backend, build-frontend]
     if: always()
     steps:
       - name: 📊 Check build status
         run: |
-          if [ "${{ needs.build-beckend.result }}" == "success" ] && [ "${{ needs.build-frontend.result }}" == "success" ]; then
+          if [ "${{ needs.build-backend.result }}" == "success" ] && [ "${{ needs.build-frontend.result }}" == "success" ]; then
             echo "STATUS=success" >> $GITHUB_ENV
           else
             echo "STATUS=failed" >> $GITHUB_ENV
