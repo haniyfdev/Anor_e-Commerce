@@ -12,14 +12,14 @@ Loyihada quyidagi vositalardan foydalanilgan:
 
 📁 Loyiha tuzilishi
 Loyiha ikki qismdan iborat:
-anor-back/ - Barcha API va ma'lumotlar bazasi mantiqi.
-anor-front/ - Foydalanuvchi interfeysi va dizayn qismi.
+1 - anor-back/ - Barcha API va ma'lumotlar bazasi mantiqi.
+2 - anor-front/ - Foydalanuvchi interfeysi va dizayn qismi.
 
 ✨ Imkoniyatlar
 
-✅ Foydalanuvchilarni ro'yxatdan o'tkazish va Login (JWT)
-✅ Mahsulotlarni ko'rish, joylash, tahrirlash, qidirish(filterlar bilan)
-✅ Mahsulotlarni savatchaga qo'shish
-✅ Profile va productlar uchun file(image) upload qilish
-✅ Kategoriyalar bo'yicha saralash
-✅ O'xshash productlar chiqarish
+✅ Foydalanuvchilarni ro'yxatdan o'tkazish va Login (JWT).
+✅ Mahsulotlarni ko'rish, joylash, tahrirlash, qidirish(filterlar bilan).
+✅ Mahsulotlarni savatchaga qo'shish.
+✅ Profile va productlar uchun file(image) upload qilish.
+✅ Kategoriyalar bo'yicha saralash.
+✅ O'xshash productlar chiqarish.
