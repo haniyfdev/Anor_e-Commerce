@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database import Base, engine  # Sening loyihangdagi engine
+from app.database import Base, engine  # Sening loyihangdagi engine
 import json
 
 # 1. Render bazasiga ulanish (Engine loyihangda .env dan olyapti)
@@ -17,7 +17,7 @@ def restore():
 
         # 3. Ma'lumotlarni bazaga urish (Masalan: mahsulotlar)
         # BU YERDA SENING MODELING NOMI BO'LISHI KERAK (masalan Product)
-        from models import Product, Category 
+        from app.models import Product, Category 
 
         for item in data['products']:
             new_prod = Product(**item)
