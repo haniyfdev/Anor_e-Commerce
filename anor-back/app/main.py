@@ -12,8 +12,8 @@ app = FastAPI(title="Anor", description="Anor dehqonchilik va chorvachilikka"\
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://anormarket.onrender.com"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
